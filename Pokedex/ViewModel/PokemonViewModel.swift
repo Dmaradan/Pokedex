@@ -7,27 +7,24 @@
 
 import Foundation
 
+@MainActor
 class PokemonViewModel: ObservableObject {
     
     private struct Returned: Codable {
         var count: Int
         var next: String
         
-        var results: [Result]
+        var results: [Pokemon]
         
-        init(count: Int, next: String, results: [Result]) {
+        init(count: Int, next: String, results: [Pokemon]) {
             self.count = count
             self.next = next
             self.results = results
         }
     }
     
-    struct Result: Codable, Hashable {
-        var name: String
-        var url: String
-    }
-    
-    @Published var results: [Result] = []
+    @Published var results: [Pokemon] = []
+    @Published var count = 0
     
     var urlString = "https://pokeapi.co/api/v2/pokemon/"
     

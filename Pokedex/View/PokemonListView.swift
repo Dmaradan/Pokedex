@@ -11,15 +11,20 @@ struct PokemonListView: View {
     
     @StateObject var pokemonVM = PokemonViewModel()
     
-    var body: some View {
-        
-        //var fillerData = ["Charizard", "Pikachu"]
-        
+    var body: some View {        
         VStack {
             NavigationStack {
                 List(pokemonVM.results, id: \.self) { pokemon in
-                    Text(pokemon.name)
-                        .font(.title2)
+                    
+                    NavigationLink {
+                        DetailView(pokemon: pokemon)
+                    } label: {
+                        Text(pokemon.name.capitalized)
+                            .font(.title2)
+                    }
+
+                    
+                    
                 }
                 .listStyle(.plain)
                 .navigationTitle("Pokemon")
