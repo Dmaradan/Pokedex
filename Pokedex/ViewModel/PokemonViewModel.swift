@@ -12,7 +12,7 @@ class PokemonViewModel: ObservableObject {
     
     private struct Returned: Codable {
         var count: Int
-        var next: String
+        var next: String?
         
         var results: [Pokemon]
         
@@ -25,8 +25,8 @@ class PokemonViewModel: ObservableObject {
     
     @Published var results: [Pokemon] = []
     @Published var count = 0
+    @Published var urlString = "https://pokeapi.co/api/v2/pokemon/"
     
-    var urlString = "https://pokeapi.co/api/v2/pokemon/"
     
     func getData() async {
         guard let url = URL(string: urlString) else {
@@ -44,7 +44,10 @@ class PokemonViewModel: ObservableObject {
                 return
             }
             print("😎 JSON data decoded successfully")
-            results = returned.results
+            results += returned.results
+            count = returned.count
+            urlString = returned.next ?? ""
+            
         } catch {
             print("ERROR: Could not retrieve data from \(urlString)")
         }
