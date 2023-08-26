@@ -23,14 +23,18 @@ class PokemonViewModel: ObservableObject {
         }
     }
     
+    @Published var isLoading = false
+    
     @Published var results: [Pokemon] = []
     @Published var count = 0
     @Published var urlString = "https://pokeapi.co/api/v2/pokemon/"
     
     
     func getData() async {
+        isLoading = true
         guard let url = URL(string: urlString) else {
             print("ERROR: Could not create a URL from \(urlString)")
+            isLoading = false
             return
         }
         
@@ -41,15 +45,18 @@ class PokemonViewModel: ObservableObject {
             // Decode the JSON data into our own structure
             guard let returned = try? JSONDecoder().decode(Returned.self, from: data) else {
                 print("ERROR: Could not decode JSON data from \(urlString)")
+                isLoading = false
                 return
             }
             print("😎 JSON data decoded successfully")
             results += returned.results
             count = returned.count
             urlString = returned.next ?? ""
+            isLoading = false
             
         } catch {
             print("ERROR: Could not retrieve data from \(urlString)")
+            isLoading = false
         }
     }
 }
