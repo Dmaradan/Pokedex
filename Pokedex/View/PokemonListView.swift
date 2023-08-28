@@ -38,8 +38,15 @@ struct PokemonListView: View {
                     .listStyle(.plain)
                     .navigationTitle("Pokemon")
                     .toolbar {
-                        ToolbarItem(placement: .bottomBar) {
+                        ToolbarItem(placement: .status) {
                             Text("\(pokemonVM.results.count) out of \(pokemonVM.count) pokemon")
+                        }
+                        ToolbarItem(placement: .bottomBar) {
+                            Button("Load All") {
+                                Task {
+                                    await pokemonVM.loadAll()
+                                }
+                            }
                         }
                     }
                 }

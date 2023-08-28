@@ -59,4 +59,12 @@ class PokemonViewModel: ObservableObject {
             isLoading = false
         }
     }
+    
+    func loadAll() async {
+        while urlString != "" {
+            await getData()
+        }
+        
+        print("👩‍🍳 Terminado")
+    }
 }
