@@ -10,24 +10,33 @@ import SwiftUI
 struct PokemonListView: View {
     
     @StateObject var pokemonVM = PokemonViewModel()
+    @State private var searchText = ""
+    
+    var searchResults: [Pokemon] {
+        if searchText == "" {
+            return pokemonVM.results
+        } else {
+            return pokemonVM.results.filter{$0.name.capitalized.contains(searchText)}
+        }
+    }
     
     var body: some View {
         ZStack {
             VStack {
                 NavigationStack {
-                    List(0..<pokemonVM.results.count, id: \.self) { index in
+                    List(searchResults) { pokemon in
                         LazyVStack {
                             NavigationLink {
-                                DetailView(pokemon: pokemonVM.results[index])
+                                DetailView(pokemon: pokemon)
                             } label: {
-                                Text("\(index + 1). " + pokemonVM.results[index].name.capitalized)
+                                Text(pokemon.name.capitalized)
                                     .font(.title2)
                             }
                         }
                         .onAppear {
                             
                             if let lastPokemon = pokemonVM.results.last {
-                                if lastPokemon.name == pokemonVM.results[index].name && pokemonVM.urlString.hasPrefix("http") {
+                                if lastPokemon.id == pokemon.id && pokemonVM.urlString.hasPrefix("http") {
                                     Task {
                                         await pokemonVM.getData()
                                     }
@@ -49,6 +58,7 @@ struct PokemonListView: View {
                             }
                         }
                     }
+                    .searchable(text: $searchText)
                 }
                 .task {
                     await pokemonVM.getData()
