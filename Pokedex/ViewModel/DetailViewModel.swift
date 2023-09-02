@@ -58,7 +58,7 @@ class DetailViewModel: ObservableObject {
             print("😎 JSON data decoded successfully")
             self.height = returned.height
             self.weight = returned.weight
-            self.imageURL = returned.sprites.other.officialArtwork.front_default ?? ""
+            self.imageURL = returned.sprites.other.officialArtwork.front_default ?? "n/a"
         } catch {
             print("ERROR: Could not retrieve data from \(urlString)")
         }

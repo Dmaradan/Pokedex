@@ -24,34 +24,54 @@ struct DetailView: View {
                 .foregroundColor(.gray)
                 .padding(.bottom)
             HStack {
-                AsyncImage(url: URL(string: detailVM.imageURL)) { image in
-                    image
-                        .resizable()
-                        .scaledToFit()
-                        .background(.white)
-                        .frame(width: 96, height: 96)
-                        .cornerRadius(16)
-                        .shadow(radius: 8, x: 5, y: 5)
-                        .overlay {
-                            RoundedRectangle(cornerRadius: 16)
-                                .stroke(.gray.opacity(0.5), lineWidth: 1)
-                                
-                        }
-                        .padding(.trailing)
-                } placeholder: {
-                    Image(systemName: "cloud")
-                        .resizable()
-                        .scaledToFit()
-                        .background(.white)
-                        .frame(width: 96, height: 96)
-                        .cornerRadius(16)
-                        .shadow(radius: 8, x: 5, y: 5)
-                        .overlay {
-                            RoundedRectangle(cornerRadius: 16)
-                                .stroke(.gray.opacity(0.5), lineWidth: 1)
-                                
-                        }
-                        .padding(.trailing)
+                
+                AsyncImage(url: URL(string: detailVM.imageURL)) { phase in
+                    if let image = phase.image {
+                        image
+                            .resizable()
+                            .scaledToFit()
+                            .background(.white)
+                            .frame(width: 96, height: 96)
+                            .cornerRadius(16)
+                            .shadow(radius: 8, x: 5, y: 5)
+                            .overlay {
+                                RoundedRectangle(cornerRadius: 16)
+                                    .stroke(.gray.opacity(0.5), lineWidth: 1)
+                                    
+                            }
+                            .padding(.trailing)
+                    } else if phase.error != nil {
+                        Image(systemName: "questionmark.app.fill")
+                            .resizable()
+                            .scaledToFit()
+                            .background(.white)
+                            .frame(width: 96, height: 96)
+                            .cornerRadius(16)
+                            .shadow(radius: 8, x: 5, y: 5)
+                            .overlay {
+                                RoundedRectangle(cornerRadius: 16)
+                                    .stroke(.gray.opacity(0.5), lineWidth: 1)
+                                    
+                            }
+                            .padding(.trailing)
+                    } else {
+                        Rectangle()
+                            .frame(width: 96, height: 96)
+                            .background(.white)
+//                        Image(systemName: "cloud")
+//                            .resizable()
+//                            .scaledToFit()
+//                            .background(.white)
+//                            .frame(width: 96, height: 96)
+//                            .cornerRadius(16)
+//                            .shadow(radius: 8, x: 5, y: 5)
+//                            .overlay {
+//                                RoundedRectangle(cornerRadius: 16)
+//                                    .stroke(.gray.opacity(0.5), lineWidth: 1)
+//                                    
+//                            }
+//                            .padding(.trailing)
+                    }
                 }
 
                 VStack(alignment: .leading) {
