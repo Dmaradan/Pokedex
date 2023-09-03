@@ -3,9 +3,6 @@
 <plist version="1.0">
 <dict>
 	<key>UILaunchScreen</key>
-	<dict>
-		<key>UILaunchScreen</key>
-		<string>pokemon-launchscreen</string>
-	</dict>
+	<dict/>
 </dict>
 </plist>
